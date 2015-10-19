@@ -14,9 +14,9 @@ class WC_mpos_Gateway extends WC_yam_Gateway {
 		$order  = new WC_Order( $order_id );
 		$txnid  = $order_id;
 		$result = '';
-		$result .= '<form name=ShopForm method="POST" id="submit_' . $this->id . '_payment_form" action="' . get_page_link( get_option( 'ym_page_mpos' ) ) . '">';
-		$result .= '<input type="hidden" name="CustomerNumber" value="' . $txnid . '" size="43">';
-		$result .= '<input type="hidden" name="Sum" value="' . number_format( $order->order_total, 2, '.', '' ) . '" size="43">';
+		$result .= '<form name="ShopForm" method="POST" id="submit_' . $this->id . '_payment_form" action="' . get_page_link( get_option( 'ym_page_mpos' ) ) . '">';
+		$result .= '<input type="hidden" name="customerNumber" value="' . $txnid . '" size="43">';
+		$result .= '<input type="hidden" name="sum" value="' . number_format( $order->order_total, 2, '.', '' ) . '" size="43">';
 		$result .= '<input name="paymentType" value="' . $this->payment_type . '" type="hidden">';
 		$result .= '<input name="cms_name" type="hidden" value="wp-woocommerce">';
 		$result .= '<input type="submit" value="Перейти к инcтрукции по оплате">';
@@ -128,17 +128,19 @@ class WC_yam_Gateway extends WC_Payment_Gateway {
 		$txnid   = $order_id;
 		$sendurl = get_option( 'ym_Demo' ) == 'on' ? 'https://demomoney.yandex.ru/eshop.xml' : 'https://money.yandex.ru/eshop.xml';
 		$result  = '';
-		$result .= '<form name=ShopForm method="POST" id="submit_' . $this->id . '_payment_form" action="' . $sendurl . '">';
+		$result .= '<form name="ShopForm" method="POST" id="submit_' . $this->id . '_payment_form" action="' . $sendurl . '">';
+		$result .= '<input type="hidden" name="scid" value="' . get_option( 'ym_Scid' ) . '">';
+		$result .= '<input type="hidden" name="shopId" value="' . get_option( 'ym_ShopID' ) . '"> ';
+		$result .= '<input type="hidden" name="shopSuccessURL" value="' . ( get_page_link( get_option( 'ym_success' ) ) ) . '"> ';
+		$result .= '<input type="hidden" name="shopFailURL" value="' . ( get_page_link( get_option( 'ym_fail' ) ) ) . '"> ';
+		$result .= '<input type="hidden" name="customerNumber" value="' . $txnid . '" size="43">';
+		$result .= '<input type="hidden" name="sum" value="' . number_format( $order->order_total, 2, '.', '' ) . '" size="43">';
+		$result .= '<input type="hidden" name="paymentType" value="' . $this->payment_type . '">';
+
 		$result .= '<input type="hidden" name="firstname" value="' . $order->billing_first_name . '">';
 		$result .= '<input type="hidden" name="lastname" value="' . $order->billing_last_name . '">';
-		$result .= '<input type="hidden" name="scid" value="' . get_option( 'ym_Scid' ) . '">';
-		$result .= '<input type="hidden" name="ShopID" value="' . get_option( 'ym_ShopID' ) . '"> ';
-		$result .= '<input type="hidden" name="shopSuccessUrl" value="' . get_page_link( get_option( 'ym_success' ) ) . '"> ';
-		$result .= '<input type="hidden" name="shopFailUrl" value="' . get_page_link( get_option( 'ym_fail' ) ) . '"> ';
-		$result .= '<input type="hidden" name="CustomerNumber" value="' . $txnid . '" size="43">';
-		$result .= '<input type="hidden" name="Sum" value="' . number_format( $order->order_total, 2, '.', '' ) . '" size="43">';
-		$result .= '<input name="paymentType" value="' . $this->payment_type . '" type="hidden">';
-		$result .= '<input name="cms_name" type="hidden" value="wp-woocommerce">';
+		$result .= '<input type="hidden" name="cms_name" value="wp-woocommerce">';
+
 		$result .= '<input type="submit" value="Оплатить" class="btn btn-primary">';
 		$result .= '</form>';
 		$woocommerce->cart->empty_cart();
