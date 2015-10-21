@@ -257,15 +257,13 @@ function yandexMoney_submenu_page_callback() {
 					<th scope="row">Страница с инструкцией для оплаты через мобильный терминал<br/><span
 							style="line-height: 1;font-weight: normal;font-style: italic;font-size: 12px;">Страница, которая содержит инструкцию для плательщика по оплате через мобильный терминал<span>
 					</th>
-					<td><select id="ym_page_mpos" name="ym_page_mpos">
-							<?php
-							if ( $pages = get_pages() ) {
-								foreach ( $pages as $page ) {
-									$selected = ( $page->ID == get_option( 'ym_page_mpos' ) ) ? ' selected' : '';
-									echo '<option value="' . $page->ID . '"' . $selected . '>' . $page->post_title . '</option>';
-								}
-							}
-							?></select>
+					<td>
+						<?php
+						wp_dropdown_pages([
+							'name' => 'ym_page_mpos',
+							'selected' => absint( get_option( 'ym_page_mpos' ) )
+						]);
+						?>
 					</td>
 				</tr>
 
@@ -273,30 +271,26 @@ function yandexMoney_submenu_page_callback() {
 					<th scope="row">Страница успеха<br/><span
 							style="line-height: 1;font-weight: normal;font-style: italic;font-size: 12px;">Страница, которая отображается после успешной оплаты<span>
 					</th>
-					<td><select id="ym_success" name="ym_success">
-							<?php
-							if ( $pages = get_pages() ) {
-								foreach ( $pages as $page ) {
-									$selected = ( $page->ID == get_option( 'ym_success' ) ) ? ' selected' : '';
-									echo '<option value="' . $page->ID . '"' . $selected . '>' . $page->post_title . '</option>';
-								}
-							}
-							?></select>
+					<td>
+						<?php
+						wp_dropdown_pages([
+							'name' => 'ym_success',
+							'selected' => absint( get_option( 'ym_success' ) )
+						]);
+						?>
 					</td>
 				</tr>
 				<tr valign="top">
 					<th scope="row">Страница отказа<br/><span
 							style="line-height: 1;font-weight: normal;font-style: italic;font-size: 12px;">Страница, которая отображается после отказа в оплате<span>
 					</th>
-					<td><select id="ym_fail" name="ym_fail">
-							<?php
-							if ( $pages = get_pages() ) {
-								foreach ( $pages as $page ) {
-									$selected = ( $page->ID == get_option( 'ym_fail' ) ) ? ' selected' : '';
-									echo '<option value="' . $page->ID . '"' . $selected . '>' . $page->post_title . '</option>';
-								}
-							}
-							?></select>
+					<td>
+						<?php
+						wp_dropdown_pages([
+							'name' => 'ym_fail',
+							'selected' => absint( get_option( 'ym_fail' ) )
+						]);
+						?>
 					</td>
 				</tr>
 
